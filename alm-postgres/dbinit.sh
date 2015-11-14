@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "******CREATING APPLICATIONS DATABASES ******"
+
+gosu postgres postgres --single <<- EOSQL
+
+CREATE DATABASE jira WITH ENCODING='UTF8' TEMPLATE=template0;
+CREATE DATABASE bamboo WITH ENCODING='UTF8' TEMPLATE=template0;
+CREATE DATABASE bitbucket WITH ENCODING='UTF8' TEMPLATE=template0;
+
+EOSQL
+
+echo "******APPLICATION DATABASES CREATED******"
+
