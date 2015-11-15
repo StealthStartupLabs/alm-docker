@@ -2,7 +2,7 @@ FROM stealthstartuplabs/java-base
 MAINTAINER Dave Jackson <dave.jackson@stealthstartuplabs.com>
 
 # Download and extract Bamboo
-ENV BAMBOO_VERSION 5.9.4
+ENV BAMBOO_VERSION 5.9.7
 RUN curl -Lks http://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-${BAMBOO_VERSION}.tar.gz \
          -o /root/bamboo.tar.gz \
       && mkdir /opt/bamboo \

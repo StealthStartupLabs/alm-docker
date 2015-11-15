@@ -3,9 +3,9 @@ MAINTAINER Dave Jackson <dave.jackson@stealthstartuplabs.com>
 
 RUN apt-get update  && apt-get install -y git && rm -rf /var/lib/apt/lists/* 
 
-# Download and extract Bitbucket 
-ENV BITBUCKET_VERSION 3.11.2
-RUN curl -Lks http://www.atlassian.com/software/bitbucket/downloads/binary/atlassian-bitbucket-${BITBUCKET_VERSION}.tar.gz \
+# Download and extract Bitbucket
+ENV BITBUCKET_VERSION 4.1.0
+RUN curl -Lks https://www.atlassian.com/software/stash/downloads/binary/atlassian-bitbucket-${BITBUCKET_VERSION}.tar.gz \
          -o /root/bitbucket.tar.gz \
       && mkdir /opt/bitbucket \
       && tar zxf /root/bitbucket.tar.gz --strip=1 -C /opt/bitbucket \

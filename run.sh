@@ -24,7 +24,7 @@ echo "
 
     run.sh  datash         # start an interactive container for examine the shared data volumes
 
-    run.sh  backup <dir>   # backup all data inside data container into <dir>/almdata.tar.gz
+    run.sh  backup <dir>   # backup all data inside data container into <dir>/alm-data.tar.gz
 
     run.sh  clean          # remove all untagged images
 
@@ -60,7 +60,7 @@ start_app() {
 
     echo starting $1
     docker run $RUN_MODE --name $1 --link postgres:db \
-        --volumes-from="almdata" -e BASE_URL=$BASE_URL \
+        --volumes-from="alm-data" -e BASE_URL=$BASE_URL \
         ${DOCKER_HUB_USER}/alm-$1 $3
 }
 
@@ -72,17 +72,17 @@ start_db() {
     start_data
 
     docker run -d --name postgres -e POSTGRES_PASSWORD=password \
-        --volumes-from="almdata" ${DOCKER_HUB_USER}/alm-postgres
+        --volumes-from="alm-data" ${DOCKER_HUB_USER}/alm-postgres
 }
 
 
 start_data() {
 
-    (docker ps -a | grep -q almdata ) || \
-        docker run --name almdata \
+    (docker ps -a | grep -q alm-data ) || \
+        docker run --name alm-data \
             -v /opt/atlassian-home \
             -v /var/lib/postgresql/data \
-            busybox echo almdata container
+            busybox echo alm-data container
 }
 
 
@@ -185,17 +185,17 @@ case "$ACTION" in
 
     datash)
 
-        docker run -it --rm --volumes-from="almdata" stealthstartuplabs/jre-base /bin/bash
+        docker run -it --rm --volumes-from="alm-data" stealthstartuplabs/java-base /bin/bash
 
     ;;
 
     backup)
 
         BACKUP_DIR=$(readlink -f $2)
-        echo backing up all data in almdata to $BACKUP_DIR
+        echo backing up all data in alm-data to $BACKUP_DIR
 
-        docker run -it --rm --volumes-from almdata -v $BACKUP_DIR:/backup  ${DOCKER_HUB_USER}/java-base  \
-              tar czvf /backup/almdata.tar.gz \
+        docker run -it --rm --volumes-from alm-data -v $BACKUP_DIR:/backup  ${DOCKER_HUB_USER}/java-base  \
+              tar czvf /backup/alm-data.tar.gz \
                    /opt/atlassian-home /var/lib/postgresql/data 
 
     ;;
